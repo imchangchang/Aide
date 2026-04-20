@@ -1,8 +1,10 @@
 import { DeleteIcon, EditIcon } from '@renderer/components/Icons'
 import MarqueeText from '@renderer/components/MarqueeText'
+import ObsidianExportPopup from '@renderer/components/Popups/ObsidianExportPopup'
 import { isMac } from '@renderer/config/constant'
 import { useUpdateSession } from '@renderer/hooks/agents/useUpdateSession'
 import { useInPlaceEdit } from '@renderer/hooks/useInPlaceEdit'
+import { useNotesSettings } from '@renderer/hooks/useNotesSettings'
 import { useRuntime } from '@renderer/hooks/useRuntime'
 import { useSettings } from '@renderer/hooks/useSettings'
 import { useTimer } from '@renderer/hooks/useTimer'
@@ -13,14 +15,24 @@ import store, { type RootState, useAppDispatch, useAppSelector } from '@renderer
 import { newMessagesActions } from '@renderer/store/newMessage'
 import { loadTopicMessagesThunk, renameAgentSessionIfNeeded } from '@renderer/store/thunk/messageThunk'
 import type { AgentSessionEntity } from '@renderer/types'
-import { classNames } from '@renderer/utils'
-import { getChannelTypeIcon } from '@renderer/utils/agentSession'
-import { buildAgentSessionTopicId } from '@renderer/utils/agentSession'
+import { classNames, removeSpecialCharactersForFileName } from '@renderer/utils'
+import { buildAgentSessionTopicId, convertSessionToTopic, getChannelTypeIcon } from '@renderer/utils/agentSession'
+import {
+  exportMarkdownToJoplin,
+  exportMarkdownToSiyuan,
+  exportMarkdownToYuque,
+  exportTopicAsMarkdown,
+  exportTopicToNotes,
+  exportTopicToNotion,
+  topicToMarkdown
+} from '@renderer/utils/export'
 import type { MenuProps } from 'antd'
 import { Dropdown, Tooltip } from 'antd'
-import { MenuIcon, Sparkles, XIcon } from 'lucide-react'
+import type { ItemType, MenuItemType } from 'antd/es/menu/interface'
+import { MenuIcon, NotebookPen, Sparkles, Upload, XIcon } from 'lucide-react'
 import React, { memo, startTransition, useDeferredValue, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 
 // const logger = loggerService.withContext('AgentItem')
@@ -44,6 +56,8 @@ const SessionItem = ({ session, agentId, channelType, onDelete, onPress }: Sessi
   const [_targetSession, setTargetSession] = useState<AgentSessionEntity>(session)
   const targetSession = useDeferredValue(_targetSession)
   const dispatch = useAppDispatch()
+  const { notesPath } = useNotesSettings()
+  const exportMenuOptions = useSelector((state: RootState) => state.settings.exportMenuOptions)
 
   const { isEditing, isSaving, startEdit, inputProps } = useInPlaceEdit({
     onSave: async (value) => {
@@ -152,6 +166,90 @@ const SessionItem = ({ session, agentId, channelType, onDelete, onPress }: Sessi
         }
       },
       {
+        label: t('notes.save'),
+        key: 'notes',
+        icon: <NotebookPen size={14} />,
+        onClick: async () => {
+          const topic = convertSessionToTopic(targetSession, agentId)
+          void exportTopicToNotes(topic, notesPath)
+        }
+      },
+      {
+        label: t('chat.topics.export.title'),
+        key: 'export',
+        icon: <Upload size={14} />,
+        children: [
+          exportMenuOptions.markdown && {
+            label: t('chat.topics.export.md.label'),
+            key: 'markdown',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              await exportTopicAsMarkdown(topic)
+            }
+          },
+          exportMenuOptions.markdown_reason && {
+            label: t('chat.topics.export.md.reason'),
+            key: 'markdown_reason',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              await exportTopicAsMarkdown(topic, true)
+            }
+          },
+          exportMenuOptions.docx && {
+            label: t('chat.topics.export.word'),
+            key: 'word',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              const markdown = await topicToMarkdown(topic)
+              void window.api.export.toWord(markdown, removeSpecialCharactersForFileName(topic.name))
+            }
+          },
+          exportMenuOptions.notion && {
+            label: t('chat.topics.export.notion'),
+            key: 'notion',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              void exportTopicToNotion(topic)
+            }
+          },
+          exportMenuOptions.yuque && {
+            label: t('chat.topics.export.yuque'),
+            key: 'yuque',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              const markdown = await topicToMarkdown(topic)
+              void exportMarkdownToYuque(topic.name, markdown)
+            }
+          },
+          exportMenuOptions.obsidian && {
+            label: t('chat.topics.export.obsidian'),
+            key: 'obsidian',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              await ObsidianExportPopup.show({ title: topic.name, topic, processingMethod: '3' })
+            }
+          },
+          exportMenuOptions.joplin && {
+            label: t('chat.topics.export.joplin'),
+            key: 'joplin',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              const markdown = await topicToMarkdown(topic)
+              void exportMarkdownToJoplin(topic.name, markdown)
+            }
+          },
+          exportMenuOptions.siyuan && {
+            label: t('chat.topics.export.siyuan'),
+            key: 'siyuan',
+            onClick: async () => {
+              const topic = convertSessionToTopic(targetSession, agentId)
+              const markdown = await topicToMarkdown(topic)
+              void exportMarkdownToSiyuan(topic.name, markdown)
+            }
+          }
+        ].filter(Boolean) as ItemType<MenuItemType>[]
+      },
+      {
         label: t('settings.topic.position.label'),
         key: 'topic-position',
         icon: <MenuIcon size={14} />,
@@ -178,7 +276,25 @@ const SessionItem = ({ session, agentId, channelType, onDelete, onPress }: Sessi
         }
       }
     ],
-    [agentId, dispatch, onDelete, session.id, sessionTopicId, setTopicPosition, t, targetSession.id]
+    [
+      agentId,
+      dispatch,
+      exportMenuOptions.docx,
+      exportMenuOptions.joplin,
+      exportMenuOptions.markdown,
+      exportMenuOptions.markdown_reason,
+      exportMenuOptions.notion,
+      exportMenuOptions.obsidian,
+      exportMenuOptions.siyuan,
+      exportMenuOptions.yuque,
+      notesPath,
+      onDelete,
+      session.id,
+      sessionTopicId,
+      setTopicPosition,
+      t,
+      targetSession
+    ]
   )
 
   return (

@@ -1,4 +1,4 @@
-import type { AgentType, ApiModelsFilter } from '@renderer/types'
+import type { AgentSessionEntity, AgentType, ApiModelsFilter, Topic, TopicType } from '@renderer/types'
 
 const SESSION_TOPIC_PREFIX = 'agent-session:'
 
@@ -43,5 +43,43 @@ export const getModelFilterByAgentType = (type: AgentType): ApiModelsFilter => {
       }
     default:
       return {}
+  }
+}
+
+/**
+ * Convert AgentSessionEntity to Topic format for export compatibility
+ * This allows agent sessions to use the existing topic export functions
+ *
+ * The messages array is intentionally left empty because:
+ * 1. Agent session messages are stored in SQLite (main process), not IndexedDB
+ * 2. Export functions will fetch messages via fetchTopicMessages() which:
+ *    - Detects the "agent-session:" prefix in topic.id
+ *    - Routes to AgentMessageDataSource (SQLite) via DbService
+ *    - Loads messages into Redux store via loadTopicMessagesThunk
+ *    - Returns messages via selectMessagesForTopic selector
+ * 3. This approach ensures messages are fetched from the correct data source
+ *    without duplicating data in memory
+ *
+ * @param session - The agent session to convert
+ * @param agentId - The agent ID that owns this session
+ * @returns A Topic object compatible with export functions
+ *
+ * @example
+ * const session = await getSession('session-123')
+ * const topic = convertSessionToTopic(session, 'agent-456')
+ * // topic.id will be "agent-session:session-123"
+ * // Export functions will automatically fetch messages from SQLite
+ * await exportTopicAsMarkdown(topic)
+ */
+export const convertSessionToTopic = (session: AgentSessionEntity, agentId: string): Topic => {
+  return {
+    id: buildAgentSessionTopicId(session.id),
+    type: 'session' as TopicType,
+    assistantId: agentId,
+    name: session.name || session.id,
+    createdAt: session.created_at,
+    updatedAt: session.updated_at,
+    messages: [], // Empty - messages fetched on-demand from SQLite via DbService
+    pinned: false
   }
 }

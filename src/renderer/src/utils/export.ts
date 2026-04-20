@@ -121,12 +121,58 @@ const sanitizeReasoningContent = (content: string): string => {
 /**
  * 获取话题的消息列表，使用TopicManager确保消息被正确加载
  * 这样可以避免从未打开过的话题导出为空的问题
- * @param topicId 话题ID
+ *
+ * 对于 Agent Session，直接从 Redux store 加载消息，因为它们不存储在 Dexie 中
+ *
+ * 数据源路由逻辑：
+ * - Agent Session (topicId 以 "agent-session:" 开头):
+ *   1. 调用 loadTopicMessagesThunk(topicId)
+ *   2. 内部通过 DbService.fetchMessages(topicId) 获取消息
+ *   3. DbService 检测到 "agent-session:" 前缀，路由到 AgentMessageDataSource
+ *   4. 从 SQLite 数据库读取消息
+ *   5. 消息存入 Redux store
+ *   6. 通过 selectMessagesForTopic(state, topicId) 返回消息
+ *
+ * - Regular Chat Topic (普通 topicId):
+ *   1. 调用 TopicManager.getTopicMessages(topicId)
+ *   2. 从 Dexie (IndexedDB) 读取 topic 记录
+ *   3. 调用 loadTopicMessagesThunk 加载消息到 Redux
+ *   4. 返回 topic.messages
+ *
+ * @param topicId 话题ID，格式：
+ *   - Agent Session: "agent-session:{sessionId}"
+ *   - Regular Topic: 任意字符串（不以 "agent-session:" 开头）
  * @returns 话题消息列表
+ *
+ * @example
+ * // Agent Session
+ * const messages = await fetchTopicMessages('agent-session:session-123')
+ * // 从 SQLite 获取
+ *
+ * @example
+ * // Regular Topic
+ * const messages = await fetchTopicMessages('topic-456')
+ * // 从 IndexedDB 获取
  */
 async function fetchTopicMessages(topicId: string): Promise<Message[]> {
-  const { TopicManager } = await import('@renderer/hooks/useTopic')
-  return await TopicManager.getTopicMessages(topicId)
+  const { isAgentSessionTopicId } = await import('@renderer/utils/agentSession')
+
+  if (isAgentSessionTopicId(topicId)) {
+    // Agent Session: 从 SQLite 通过 Redux store 获取消息
+    const { loadTopicMessagesThunk } = await import('@renderer/store/thunk/messageThunk')
+    const { selectMessagesForTopic } = await import('@renderer/store/newMessage')
+
+    // 加载消息到 Redux store (内部会路由到 SQLite)
+    await store.dispatch(loadTopicMessagesThunk(topicId))
+
+    // 从 Redux store 获取消息
+    const state = store.getState()
+    return selectMessagesForTopic(state, topicId)
+  } else {
+    // Regular Chat Topic: 从 IndexedDB 通过 TopicManager 获取消息
+    const { TopicManager } = await import('@renderer/hooks/useTopic')
+    return await TopicManager.getTopicMessages(topicId)
+  }
 }
 
 /**
