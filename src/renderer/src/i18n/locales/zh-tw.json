@@ -2776,7 +2776,9 @@
     "no_file_selected": "請選擇要上傳的檔案",
     "no_note_selected": "請先選擇一個筆記",
     "no_valid_files": "沒有上傳有效的檔案",
+    "obsidian_vault_not_set": "請先設置筆記使用的 Obsidian 倉庫",
     "open_folder": "開啟外部資料夾",
+    "open_in_obsidian": "在 Obsidian 中打開",
     "open_outside": "從外部開啟",
     "rename": "重新命名",
     "rename_changed": "基於安全性考量，檔名已從 {{original}} 變更為 {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "選擇",
         "select_directory_failed": "選擇目錄失敗",
         "title": "資料設定",
+        "use_obsidian_config": "使用 Obsidian 倉庫路徑",
         "work_directory_description": "工作目錄是儲存所有筆記檔案的位置。\n變更工作目錄不會移動現有檔案，請手動移轉檔案。",
         "work_directory_placeholder": "選擇筆記工作目錄"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "正在取得 Obsidian 倉庫...",
         "default_vault_no_vaults": "未找到 Obsidian 倉庫",
         "default_vault_placeholder": "請選擇預設 Obsidian 倉庫",
+        "notes_use_default_vault": "筆記使用預設 Obsidian 倉庫",
+        "notes_vault": "筆記使用的 Obsidian 倉庫",
+        "notes_vault_placeholder": "請選擇筆記使用的 Obsidian 倉庫",
         "title": "Obsidian 設定"
       },
       "s3": {

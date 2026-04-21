@@ -2776,7 +2776,9 @@
     "no_file_selected": "Te rugăm să selectezi fișierul de încărcat",
     "no_note_selected": "Te rog selectează mai întâi o notă",
     "no_valid_files": "Nu a fost încărcat niciun fișier valid",
+    "obsidian_vault_not_set": "Vă rugăm să setați mai întâi vault-ul Obsidian pentru note",
     "open_folder": "Deschide un dosar extern",
+    "open_in_obsidian": "Deschide în Obsidian",
     "open_outside": "Deschide extern",
     "rename": "Redenumește",
     "rename_changed": "Din cauza politicilor de securitate, numele fișierului a fost schimbat din {{original}} în {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "Selectează",
         "select_directory_failed": "Nu s-a putut selecta directorul",
         "title": "Setări date",
+        "use_obsidian_config": "Utilizează calea vault-ului Obsidian",
         "work_directory_description": "Directorul de lucru este locul unde sunt stocate toate fișierele notițelor. Schimbarea directorului de lucru nu va muta fișierele existente; te rugăm să migrezi fișierele manual.",
         "work_directory_placeholder": "Selectează directorul de lucru pentru notițe"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Se încarcă seiful Obsidian...",
         "default_vault_no_vaults": "Nu s-au găsit seifuri Obsidian",
         "default_vault_placeholder": "Te rugăm să selectezi seiful Obsidian implicit",
+        "notes_use_default_vault": "Utilizează vault-ul Obsidian implicit pentru note",
+        "notes_vault": "Vault Obsidian pentru note",
+        "notes_vault_placeholder": "Vă rugăm să selectați vault-ul Obsidian pentru note",
         "title": "Configurare Obsidian"
       },
       "s3": {

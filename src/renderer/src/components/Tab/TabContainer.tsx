@@ -245,7 +245,7 @@ const TabsContainer: React.FC<TabsContainerProps> = ({ children }) => {
             onSortEnd={onSortEnd}
             className="tabs-sortable"
             renderItem={(tab) => {
-              const isClosable = tab.id !== 'home' && tab.id !== 'agents'
+              const isClosable = tab.id !== 'home' && tab.id !== 'agents' && tab.id !== 'notes'
               return (
                 <Tab
                   key={tab.id}

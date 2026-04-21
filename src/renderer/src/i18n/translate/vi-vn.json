@@ -2776,7 +2776,9 @@
     "no_file_selected": "Vui lòng chọn tệp để tải lên",
     "no_note_selected": "Vui lòng chọn một ghi chú trước",
     "no_valid_files": "Không có tệp hợp lệ nào được tải lên",
+    "obsidian_vault_not_set": "Vui lòng thiết lập kho Obsidian cho ghi chú trước",
     "open_folder": "Mở một thư mục bên ngoài",
+    "open_in_obsidian": "Mở trong Obsidian",
     "open_outside": "Mở từ bên ngoài",
     "rename": "Đổi tên",
     "rename_changed": "Do chính sách bảo mật, tên tệp đã được thay đổi từ {{original}} thành {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "Chọn",
         "select_directory_failed": "Không thể chọn thư mục",
         "title": "Cài đặt Dữ liệu",
+        "use_obsidian_config": "Sử dụng đường dẫn kho Obsidian",
         "work_directory_description": "Thư mục làm việc là nơi lưu trữ tất cả các tệp ghi chú. Việc thay đổi thư mục làm việc sẽ không di chuyển các tệp hiện có, vui lòng di chuyển các tệp thủ công.",
         "work_directory_placeholder": "Chọn thư mục làm việc ghi chú"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Đang tải kho Obsidian...",
         "default_vault_no_vaults": "Không tìm thấy kho Obsidian nào",
         "default_vault_placeholder": "Vui lòng chọn kho Obsidian mặc định",
+        "notes_use_default_vault": "Sử dụng kho Obsidian mặc định cho ghi chú",
+        "notes_vault": "Kho Obsidian cho ghi chú",
+        "notes_vault_placeholder": "Vui lòng chọn kho Obsidian cho ghi chú",
         "title": "Cấu hình Obsidian"
       },
       "s3": {

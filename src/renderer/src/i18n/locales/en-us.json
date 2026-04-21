@@ -2776,7 +2776,9 @@
     "no_file_selected": "Please select the file to upload",
     "no_note_selected": "Please select a note first",
     "no_valid_files": "No valid file was uploaded",
+    "obsidian_vault_not_set": "Please set the Obsidian vault for notes first",
     "open_folder": "Open an external folder",
+    "open_in_obsidian": "Open in Obsidian",
     "open_outside": "Open from external",
     "rename": "Rename",
     "rename_changed": "Due to security policies, the filename has been changed from {{original}} to {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "Select",
         "select_directory_failed": "Failed to select directory",
         "title": "Data Settings",
+        "use_obsidian_config": "Use Obsidian vault path",
         "work_directory_description": "Work directory is where all note files are stored. Changing the work directory won't move existing files, please migrate files manually.",
         "work_directory_placeholder": "Select notes work directory"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Loading Obsidian vault...",
         "default_vault_no_vaults": "No Obsidian vaults found",
         "default_vault_placeholder": "Please select the default Obsidian vault",
+        "notes_use_default_vault": "Use default Obsidian vault for notes",
+        "notes_vault": "Notes Obsidian Vault",
+        "notes_vault_placeholder": "Please select the Obsidian vault for notes",
         "title": "Obsidian Configuration"
       },
       "s3": {

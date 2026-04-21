@@ -179,6 +179,8 @@ export interface SettingsState {
   joplinUrl: string | null
   joplinExportReasoning: boolean
   defaultObsidianVault: string | null
+  notesObsidianVault: string | null
+  notesUseDefaultObsidianVault: boolean
   /** This state is actaully default assistant preset */
   defaultAgent: string | null
   // 思源笔记配置
@@ -369,6 +371,8 @@ export const initialState: SettingsState = {
   joplinUrl: '',
   joplinExportReasoning: false,
   defaultObsidianVault: null,
+  notesObsidianVault: null,
+  notesUseDefaultObsidianVault: false,
   defaultAgent: null,
   siyuanApiUrl: null,
   siyuanToken: null,
@@ -775,6 +779,16 @@ const settingsSlice = createSlice({
     setDefaultObsidianVault: (state, action: PayloadAction<string>) => {
       state.defaultObsidianVault = action.payload
     },
+    setNotesObsidianVault: (state, action: PayloadAction<string | null>) => {
+      state.notesObsidianVault = action.payload
+    },
+    setNotesUseDefaultObsidianVault: (state, action: PayloadAction<boolean>) => {
+      state.notesUseDefaultObsidianVault = action.payload
+      // 如果勾选使用默认仓库，自动同步
+      if (action.payload) {
+        state.notesObsidianVault = state.defaultObsidianVault
+      }
+    },
     setDefaultAgent: (state, action: PayloadAction<string>) => {
       state.defaultAgent = action.payload
     },
@@ -995,6 +1009,8 @@ export const {
   setJoplinExportReasoning,
   setMessageNavigation,
   setDefaultObsidianVault,
+  setNotesObsidianVault,
+  setNotesUseDefaultObsidianVault,
   setDefaultAgent,
   setSiyuanApiUrl,
   setSiyuanToken,

@@ -2,6 +2,7 @@ import { loggerService } from '@logger'
 import Selector from '@renderer/components/Selector'
 import { useTheme } from '@renderer/context/ThemeProvider'
 import { useNotesSettings } from '@renderer/hooks/useNotesSettings'
+import { useSettings } from '@renderer/hooks/useSettings'
 import {
   SettingContainer,
   SettingDivider,
@@ -11,8 +12,10 @@ import {
   SettingRowTitle,
   SettingTitle
 } from '@renderer/pages/settings'
+import { useAppDispatch } from '@renderer/store'
+import { setNotesUseDefaultObsidianVault } from '@renderer/store/settings'
 import type { EditorView } from '@renderer/types'
-import { Button, Input, message, Slider, Switch } from 'antd'
+import { Button, Checkbox, Input, message, Slider, Switch } from 'antd'
 import { FolderOpen } from 'lucide-react'
 import type { FC } from 'react'
 import { useEffect, useState } from 'react'
@@ -24,7 +27,9 @@ const logger = loggerService.withContext('NotesSettings')
 const NotesSettings: FC = () => {
   const { theme } = useTheme()
   const { t } = useTranslation()
+  const dispatch = useAppDispatch()
   const { settings, updateSettings, notesPath, updateNotesPath } = useNotesSettings()
+  const { notesUseDefaultObsidianVault } = useSettings()
   const [tempPath, setTempPath] = useState<string>(notesPath || '')
   const [isSelecting, setIsSelecting] = useState(false)
 
@@ -88,6 +93,10 @@ const NotesSettings: FC = () => {
     }
   }
 
+  const handleUseObsidianChange = (checked: boolean) => {
+    dispatch(setNotesUseDefaultObsidianVault(checked))
+  }
+
   const isPathChanged = tempPath !== notesPath
 
   return (
@@ -99,27 +108,38 @@ const NotesSettings: FC = () => {
           <SettingRowTitle>{t('notes.settings.data.current_work_directory')}</SettingRowTitle>
         </SettingRow>
         <WorkDirectorySection>
+          <SettingRow style={{ margin: 0, padding: 0 }}>
+            <Checkbox
+              checked={notesUseDefaultObsidianVault}
+              onChange={(e) => handleUseObsidianChange(e.target.checked)}>
+              {t('notes.settings.data.use_obsidian_config')}
+            </Checkbox>
+          </SettingRow>
           <PathInputContainer>
             <Input
               value={tempPath}
               onChange={(e) => setTempPath(e.target.value)}
               placeholder={t('notes.settings.data.work_directory_placeholder')}
               readOnly
+              disabled={notesUseDefaultObsidianVault}
             />
             <Button
               type="default"
               icon={<FolderOpen size={16} />}
               onClick={handleSelectWorkDirectory}
               loading={isSelecting}
+              disabled={notesUseDefaultObsidianVault}
               style={{ marginLeft: 8 }}>
               {t('notes.settings.data.select')}
             </Button>
           </PathInputContainer>
           <ActionButtons>
-            <Button type="primary" onClick={handleApplyPath} disabled={!isPathChanged}>
+            <Button type="primary" onClick={handleApplyPath} disabled={!isPathChanged || notesUseDefaultObsidianVault}>
               {t('notes.settings.data.apply')}
             </Button>
-            <Button onClick={handleResetToDefault}>{t('notes.settings.data.reset_to_default')}</Button>
+            <Button onClick={handleResetToDefault} disabled={notesUseDefaultObsidianVault}>
+              {t('notes.settings.data.reset_to_default')}
+            </Button>
           </ActionButtons>
         </WorkDirectorySection>
         <SettingRow>

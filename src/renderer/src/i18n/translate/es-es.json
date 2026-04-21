@@ -2776,7 +2776,9 @@
     "no_file_selected": "Por favor, seleccione el archivo a subir",
     "no_note_selected": "Por favor, selecciona primero una nota.",
     "no_valid_files": "No se ha cargado un archivo válido",
+    "obsidian_vault_not_set": "Primero configure el vault de Obsidian para notas",
     "open_folder": "abrir carpeta externa",
+    "open_in_obsidian": "Abrir en Obsidian",
     "open_outside": "Abrir desde el exterior",
     "rename": "renombrar",
     "rename_changed": "Debido a políticas de seguridad, el nombre del archivo ha cambiado de {{original}} a {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "selección",
         "select_directory_failed": "No se pudo seleccionar el directorio",
         "title": "Configuración de datos",
+        "use_obsidian_config": "Usar ruta del vault de Obsidian",
         "work_directory_description": "El directorio de trabajo es la ubicación donde se almacenan todos los archivos de notas. Cambiar el directorio de trabajo no moverá los archivos existentes; por favor, migre los archivos manualmente.",
         "work_directory_placeholder": "Seleccionar directorio de trabajo de notas"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Obteniendo repositorios Obsidian...",
         "default_vault_no_vaults": "No se encontraron repositorios Obsidian",
         "default_vault_placeholder": "Seleccione un repositorio Obsidian predeterminado",
+        "notes_use_default_vault": "Usar vault de Obsidian predeterminado para notas",
+        "notes_vault": "Vault de Obsidian para notas",
+        "notes_vault_placeholder": "Seleccione el vault de Obsidian para notas",
         "title": "Configuración de Obsidian"
       },
       "s3": {

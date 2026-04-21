@@ -2776,7 +2776,9 @@
     "no_file_selected": "Επιλέξτε το αρχείο για μεταφόρτωση",
     "no_note_selected": "Παρακαλώ επιλέξτε πρώτα μια σημείωση",
     "no_valid_files": "Δεν ανέβηκε έγκυρο αρχείο",
+    "obsidian_vault_not_set": "Παρακαλώ ορίστε πρώτα τον θησαυρό Obsidian για σημειώσεις",
     "open_folder": "Άνοιγμα εξωτερικού φακέλου",
+    "open_in_obsidian": "Άνοιγμα στο Obsidian",
     "open_outside": "Από το εξωτερικό",
     "rename": "μετονομασία",
     "rename_changed": "Λόγω πολιτικής ασφάλειας, το όνομα του αρχείου έχει αλλάξει από {{original}} σε {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "επιλογή",
         "select_directory_failed": "Η επιλογή καταλόγου απέτυχε",
         "title": "ρύθμιση δεδομένων",
+        "use_obsidian_config": "Χρήση διαδρομής θησαυρού Obsidian",
         "work_directory_description": "Ο κατάλογος εργασίας είναι η θέση όπου αποθηκεύονται όλα τα αρχεία σημειώσεων. Η αλλαγή του καταλόγου εργασίας δεν μετακινεί τα υπάρχοντα αρχεία, παρακαλώ μεταφέρετε τα αρχεία χειροκίνητα.",
         "work_directory_placeholder": "Επιλογή καταλόγου εργασίας σημειώσεων"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Ανάκτηση αποθετηρίου Obsidian...",
         "default_vault_no_vaults": "Δεν βρέθηκε αποθετήριο Obsidian",
         "default_vault_placeholder": "Επιλέξτε προεπιλεγμένο αποθετήριο Obsidian",
+        "notes_use_default_vault": "Χρήση προεπιλεγμένου θησαυρού Obsidian για σημειώσεις",
+        "notes_vault": "Θησαυρός Obsidian για σημειώσεις",
+        "notes_vault_placeholder": "Παρακαλώ επιλέξτε τον θησαυρό Obsidian για σημειώσεις",
         "title": "Ρύθμιση του Obsidian"
       },
       "s3": {

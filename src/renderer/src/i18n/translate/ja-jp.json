@@ -2776,7 +2776,9 @@
     "no_file_selected": "アップロードするファイルを選択してください",
     "no_note_selected": "まずノートを選択してください",
     "no_valid_files": "有効なファイルがアップロードされていません",
+    "obsidian_vault_not_set": "ノート用の Obsidian ヴォルトを先に設定してください",
     "open_folder": "外部フォルダーを開きます",
+    "open_in_obsidian": "Obsidian で開く",
     "open_outside": "外部から開く",
     "rename": "名前の変更",
     "rename_changed": "セキュリティポリシーにより、ファイル名は{{original}}から{{final}}に変更されました",
@@ -2802,6 +2804,7 @@
         "select": "選ぶ",
         "select_directory_failed": "ディレクトリの選択に失敗しました",
         "title": "データ設定",
+        "use_obsidian_config": "Obsidian ヴォルトのパスを使用",
         "work_directory_description": "作業ディレクトリは、すべてのメモが保存される場所です。ワーキングディレクトリを変更しても、既存のファイルは移動しません。ファイルを手動で移行してください。",
         "work_directory_placeholder": "ノートワークディレクトリを選択します"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Obsidian 保管庫を取得中...",
         "default_vault_no_vaults": "Obsidian 保管庫が見つかりません",
         "default_vault_placeholder": "デフォルトの Obsidian 保管庫を選択してください",
+        "notes_use_default_vault": "ノートにデフォルトの Obsidian ヴォルトを使用",
+        "notes_vault": "ノート用の Obsidian ヴォルト",
+        "notes_vault_placeholder": "ノート用の Obsidian ヴォルトを選択してください",
         "title": "Obsidian 設定"
       },
       "s3": {

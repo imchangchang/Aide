@@ -2776,7 +2776,9 @@
     "no_file_selected": "请选择要上传的文件",
     "no_note_selected": "请先选择一个笔记",
     "no_valid_files": "没有上传有效的文件",
+    "obsidian_vault_not_set": "请先设置笔记使用的 Obsidian 仓库",
     "open_folder": "打开外部文件夹",
+    "open_in_obsidian": "在 Obsidian 中打开",
     "open_outside": "从外部打开",
     "rename": "重命名",
     "rename_changed": "由于安全策略，文件名已从 {{original}} 更改为 {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "选择",
         "select_directory_failed": "选择目录失败",
         "title": "数据设置",
+        "use_obsidian_config": "使用 Obsidian 仓库路径",
         "work_directory_description": "工作目录是存储所有笔记文件的位置。更改工作目录不会移动现有文件，请手动迁移文件。",
         "work_directory_placeholder": "选择笔记工作目录"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "正在获取 Obsidian 仓库...",
         "default_vault_no_vaults": "未找到 Obsidian 仓库",
         "default_vault_placeholder": "请选择默认 Obsidian 仓库",
+        "notes_use_default_vault": "笔记使用默认 Obsidian 仓库",
+        "notes_vault": "笔记使用的 Obsidian 仓库",
+        "notes_vault_placeholder": "请选择笔记使用的 Obsidian 仓库",
         "title": "Obsidian 配置"
       },
       "s3": {

@@ -5,6 +5,7 @@ import BaseNavbarIcon from '@renderer/components/NavbarIcon'
 import GeneralPopup from '@renderer/components/Popups/GeneralPopup'
 import { useActiveNode } from '@renderer/hooks/useNotesQuery'
 import { useNotesSettings } from '@renderer/hooks/useNotesSettings'
+import { useSettings } from '@renderer/hooks/useSettings'
 import { useShowWorkspace } from '@renderer/hooks/useShowWorkspace'
 import { findNode } from '@renderer/services/NotesTreeService'
 import { Breadcrumb, Dropdown, Input, Tooltip } from 'antd'
@@ -27,7 +28,19 @@ const HeaderNavbar = ({ notesTree, getCurrentNoteContent, onToggleStar, onExpand
   const [titleValue, setTitleValue] = useState('')
   const titleInputRef = useRef<any>(null)
   const { settings, updateSettings } = useNotesSettings()
+  const { notesObsidianVault, notesUseDefaultObsidianVault, defaultObsidianVault } = useSettings()
   const canShowStarButton = activeNode?.type === 'file' && onToggleStar
+
+  const effectiveObsidianVault = notesUseDefaultObsidianVault ? defaultObsidianVault : notesObsidianVault
+
+  const handleOpenInObsidian = useCallback(() => {
+    if (!effectiveObsidianVault) {
+      window.toast.warning(t('notes.obsidian_vault_not_set'))
+      return
+    }
+    const obsidianUrl = `obsidian://open?vault=${encodeURIComponent(effectiveObsidianVault)}`
+    window.open(obsidianUrl)
+  }, [effectiveObsidianVault])
 
   const handleToggleShowWorkspace = useCallback(() => {
     toggleShowWorkspace()
@@ -277,6 +290,11 @@ const HeaderNavbar = ({ notesTree, getCurrentNoteContent, onToggleStar, onExpand
             </StarButton>
           </Tooltip>
         )}
+        <Tooltip title={t('notes.open_in_obsidian')} mouseEnterDelay={0.8}>
+          <ObsidianButton onClick={handleOpenInObsidian}>
+            <i className="iconfont icon-obsidian" />
+          </ObsidianButton>
+        </Tooltip>
         <Tooltip title={t('notes.settings.title')} mouseEnterDelay={0.8}>
           <Dropdown
             menu={{ items: menuItems.map(buildMenuItem) }}
@@ -318,6 +336,31 @@ export const StarButton = styled.div`
 
   &:hover {
     background-color: var(--color-background-mute);
+  }
+`
+
+export const ObsidianButton = styled.div`
+  -webkit-app-region: none;
+  border-radius: 8px;
+  height: 30px;
+  padding: 0 7px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: 1px solid rgba(124, 77, 255, 0.3);
+  background-color: rgba(124, 77, 255, 0.08);
+
+  .iconfont {
+    font-size: 16px;
+    color: #7c4dff;
+  }
+
+  &:hover {
+    background-color: rgba(124, 77, 255, 0.15);
+    border-color: rgba(124, 77, 255, 0.5);
   }
 `
 

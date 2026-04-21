@@ -2776,7 +2776,9 @@
     "no_file_selected": "Bitte Datei zum Hochladen auswählen",
     "no_note_selected": "Bitte wählen Sie zuerst eine Notiz aus",
     "no_valid_files": "Keine gültigen Dateien hochgeladen",
+    "obsidian_vault_not_set": "Bitte wählen Sie zuerst den Obsidian-Vault für Notizen aus",
     "open_folder": "Externen Ordner öffnen",
+    "open_in_obsidian": "In Obsidian öffnen",
     "open_outside": "Extern öffnen",
     "rename": "Umbenennen",
     "rename_changed": "Aus Sicherheitsgründen wurde der Dateiname von {{original}} zu {{final}} geändert",
@@ -2802,6 +2804,7 @@
         "select": "Auswählen",
         "select_directory_failed": "Verzeichnis auswählen fehlgeschlagen",
         "title": "Dateneinstellungen",
+        "use_obsidian_config": "Obsidian-Vault-Pfad verwenden",
         "work_directory_description": "Das Arbeitsverzeichnis ist der Speicherort für alle Notizdateien. Das Ändern des Arbeitsverzeichnisses verschiebt vorhandene Dateien nicht. Bitte migrieren Sie Dateien manuell.",
         "work_directory_placeholder": "Notizen-Arbeitsverzeichnis auswählen"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Obsidian-Tresor wird abgerufen...",
         "default_vault_no_vaults": "Kein Obsidian-Tresor gefunden",
         "default_vault_placeholder": "Bitte Standard-Obsidian-Tresor auswählen",
+        "notes_use_default_vault": "Standard-Obsidian-Vault für Notizen verwenden",
+        "notes_vault": "Obsidian-Vault für Notizen",
+        "notes_vault_placeholder": "Bitte wählen Sie den Obsidian-Vault für Notizen aus",
         "title": "Obsidian-Konfiguration"
       },
       "s3": {

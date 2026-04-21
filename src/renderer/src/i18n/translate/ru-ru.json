@@ -2776,7 +2776,9 @@
     "no_file_selected": "Пожалуйста, выберите файл для загрузки",
     "no_note_selected": "Пожалуйста, сначала выберите заметку",
     "no_valid_files": "Не загружен действительный файл",
+    "obsidian_vault_not_set": "Пожалуйста, сначала настройте хранилище Obsidian для заметок",
     "open_folder": "Откройте внешнюю папку",
+    "open_in_obsidian": "Открыть в Obsidian",
     "open_outside": "открыть снаружи",
     "rename": "переименовать",
     "rename_changed": "В связи с политикой безопасности имя файла было изменено с {{Original}} на {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "выбирать",
         "select_directory_failed": "Не удалось выбрать каталог",
         "title": "Настройки данных",
+        "use_obsidian_config": "Использовать путь хранилища Obsidian",
         "work_directory_description": "Рабочий каталог - это место, где хранятся все заметки. Изменение рабочего каталога не будет перемещать существующие файлы, пожалуйста, переносите файлы вручную.",
         "work_directory_placeholder": "Выберите Справочник рабочих примечаний"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Получение хранилищ Obsidian...",
         "default_vault_no_vaults": "Хранилища Obsidian не найдены",
         "default_vault_placeholder": "Выберите хранилище Obsidian по умолчанию",
+        "notes_use_default_vault": "Использовать хранилище Obsidian по умолчанию для заметок",
+        "notes_vault": "Хранилище Obsidian для заметок",
+        "notes_vault_placeholder": "Пожалуйста, выберите хранилище Obsidian для заметок",
         "title": "Настройки Obsidian"
       },
       "s3": {

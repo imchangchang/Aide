@@ -2776,7 +2776,9 @@
     "no_file_selected": "Veuillez sélectionner le fichier à télécharger",
     "no_note_selected": "Veuillez d'abord sélectionner une note",
     "no_valid_files": "Aucun fichier valide n’a été téléversé",
+    "obsidian_vault_not_set": "Veuillez d'abord configurer le vault Obsidian pour les notes",
     "open_folder": "ouvrir le dossier externe",
+    "open_in_obsidian": "Ouvrir dans Obsidian",
     "open_outside": "Ouvrir depuis l'extérieur",
     "rename": "renommer",
     "rename_changed": "En raison de la politique de sécurité, le nom du fichier a été changé de {{original}} à {{final}}",
@@ -2802,6 +2804,7 @@
         "select": "choix",
         "select_directory_failed": "Échec de sélection du répertoire",
         "title": "paramétrage des données",
+        "use_obsidian_config": "Utiliser le chemin du vault Obsidian",
         "work_directory_description": "Le répertoire de travail est l'emplacement où sont stockés tous les fichiers de notes. Changer le répertoire de travail ne déplace pas les fichiers existants, veuillez les migrer manuellement.",
         "work_directory_placeholder": "Sélectionner le répertoire de travail des notes"
       },
@@ -4332,6 +4335,9 @@
         "default_vault_loading": "Récupération du référentiel Obsidian en cours...",
         "default_vault_no_vaults": "Aucun référentiel Obsidian trouvé",
         "default_vault_placeholder": "Veuillez sélectionner un référentiel Obsidian par défaut",
+        "notes_use_default_vault": "Utiliser le vault Obsidian par défaut pour les notes",
+        "notes_vault": "Vault Obsidian pour les notes",
+        "notes_vault_placeholder": "Veuillez sélectionner le vault Obsidian pour les notes",
         "title": "Configuration d'Obsidian"
       },
       "s3": {
