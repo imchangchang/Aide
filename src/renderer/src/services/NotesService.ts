@@ -7,6 +7,7 @@ import { getFileDirectory } from '@renderer/utils'
 const logger = loggerService.withContext('NotesService')
 
 const MARKDOWN_EXT = '.md'
+const NOTES_STORAGE_SUBDIR = 'raw/notes'
 let defaultNotesPathPromise: Promise<string> | null = null
 
 export interface UploadResult {
@@ -106,6 +107,34 @@ export async function resolveNotesPath(parentPath: string): Promise<ResolvedNote
     return {
       path: basePath,
       isFallback: false
+    }
+  }
+
+  // If path ends with storage subdir (raw/notes), validate its parent directory
+  const pathParts = basePath.split('/')
+  const isStoragePath =
+    pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'raw' && pathParts[pathParts.length - 1] === 'notes'
+  if (isStoragePath) {
+    const parentDir = basePath.slice(0, -('/' + NOTES_STORAGE_SUBDIR).length)
+    try {
+      const isParentValid = await window.api.file.validateNotesDirectory(parentDir)
+      if (isParentValid) {
+        return {
+          path: basePath,
+          isFallback: false
+        }
+      }
+    } catch (error) {
+      logger.warn('Failed to validate parent notes directory, fallback to default', {
+        parentDir,
+        basePath,
+        error: (error as Error).message
+      })
+
+      return {
+        path: defaultNotesPath,
+        isFallback: true
+      }
     }
   }
 
@@ -315,6 +344,11 @@ function getTime(value?: string): number {
 
 function normalizePath(value: string): string {
   return value.replace(/\\/g, '/')
+}
+
+export function getStoragePath(basePath: string): string {
+  const normalized = normalizePath(basePath).replace(/\/+$/, '')
+  return normalized + '/' + NOTES_STORAGE_SUBDIR
 }
 
 function filterMarkdown(files: File[]): File[] {

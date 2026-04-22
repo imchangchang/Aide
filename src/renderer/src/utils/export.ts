@@ -3,7 +3,7 @@ import { Client } from '@notionhq/client'
 import i18n from '@renderer/i18n'
 import { getProviderLabel } from '@renderer/i18n/label'
 import { getMessageTitle } from '@renderer/services/MessagesService'
-import { addNote } from '@renderer/services/NotesService'
+import { addNote, getStoragePath } from '@renderer/services/NotesService'
 import store from '@renderer/store'
 import { setExportState } from '@renderer/store/runtime'
 import type { Topic } from '@renderer/types'
@@ -1101,7 +1101,8 @@ async function createSiyuanDoc(
 export const exportMessageToNotes = async (title: string, content: string, folderPath: string): Promise<void> => {
   try {
     const cleanedContent = content.replace(/^## 🤖 Assistant(\n|$)/m, '')
-    await addNote(title, cleanedContent, folderPath)
+    const storagePath = getStoragePath(folderPath)
+    await addNote(title, cleanedContent, storagePath)
 
     window.toast.success(i18n.t('message.success.notes.export'))
   } catch (error) {
@@ -1120,7 +1121,8 @@ export const exportMessageToNotes = async (title: string, content: string, folde
 export const exportTopicToNotes = async (topic: Topic, folderPath: string): Promise<void> => {
   try {
     const content = await topicToMarkdown(topic)
-    await addNote(topic.name, content, folderPath)
+    const storagePath = getStoragePath(folderPath)
+    await addNote(topic.name, content, storagePath)
 
     window.toast.success(i18n.t('message.success.notes.export'))
   } catch (error) {

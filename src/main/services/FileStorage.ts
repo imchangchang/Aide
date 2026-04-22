@@ -617,6 +617,8 @@ class FileStorage {
     filePath: string,
     data: Uint8Array | string
   ): Promise<void> => {
+    const dir = path.dirname(filePath)
+    await fs.promises.mkdir(dir, { recursive: true })
     await fs.promises.writeFile(filePath, data)
   }
 
