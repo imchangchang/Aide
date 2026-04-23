@@ -678,6 +678,9 @@
       "enable_server_description": "Der API-Server muss aktiviert sein, damit Agents funktionieren. Sie können ihn direkt aktivieren oder in den Einstellungen konfigurieren.",
       "server_not_running": "API-Server ist aktiviert, läuft aber nicht. Bitte überprüfen Sie die Serverkonfiguration.",
       "server_not_running_description": "Der API-Server muss laufen, damit die Agents funktionieren. Sie können ihn direkt starten oder die Einstellungen überprüfen."
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Ansicht teilen",
       "restore": "Ansichtsteilung aufheben"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "Zeilenumbruch aufheben",

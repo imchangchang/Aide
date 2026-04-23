@@ -678,6 +678,9 @@
       "enable_server_description": "Máy chủ API phải được bật để các tác nhân hoạt động. Bạn có thể bật nó trực tiếp hoặc cấu hình trong phần cài đặt.",
       "server_not_running": "Máy chủ API đã được kích hoạt nhưng không đang chạy. Vui lòng kiểm tra cấu hình máy chủ.",
       "server_not_running_description": "Máy chủ API cần được chạy để các tác nhân hoạt động. Bạn có thể khởi động nó trực tiếp hoặc kiểm tra cài đặt."
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Chia đôi màn hình",
       "restore": "Khôi phục Chế độ chia đôi"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "Mở gói",

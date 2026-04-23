@@ -678,6 +678,9 @@
       "enable_server_description": "O servidor de API deve estar habilitado para que os agentes funcionem. Você pode habilitá-lo diretamente ou configurá-lo nas configurações.",
       "server_not_running": "O Servidor API está ativado, mas não está em execução. Verifique a configuração do servidor.",
       "server_not_running_description": "O servidor da API precisa estar em execução para que os agentes funcionem. Você pode iniciá-lo diretamente ou verificar as configurações."
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Dividir visualização",
       "restore": "Cancelar divisão de visualização"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "Desativar quebra de linha",

@@ -1,5 +1,6 @@
 import { QuickPanelProvider } from '@renderer/components/QuickPanel'
 import { useActiveAgent } from '@renderer/hooks/agents/useActiveAgent'
+import { useActiveSession } from '@renderer/hooks/agents/useActiveSession'
 import { useAgents } from '@renderer/hooks/agents/useAgents'
 import { useCreateDefaultSession } from '@renderer/hooks/agents/useCreateDefaultSession'
 import { useRuntime } from '@renderer/hooks/useRuntime'
@@ -11,6 +12,7 @@ import { buildAgentSessionTopicId } from '@renderer/utils/agentSession'
 import { Alert, Spin } from 'antd'
 import { AnimatePresence, motion } from 'motion/react'
 import type { PropsWithChildren } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 import { PinnedTodoPanel } from '../home/Inputbar/components/PinnedTodoPanel'
@@ -19,6 +21,7 @@ import NarrowLayout from '../home/Messages/NarrowLayout'
 import AgentChatNavbar from './components/AgentChatNavbar'
 import AgentSessionInputbar from './components/AgentSessionInputbar'
 import AgentSessionMessages from './components/AgentSessionMessages'
+import AgentWorkspaceSidebar from './components/AgentWorkspaceSidebar'
 import Sessions from './components/Sessions'
 
 const AgentChat = () => {
@@ -31,8 +34,16 @@ const AgentChat = () => {
   // undefined = session not yet initialized, null = initialized but no sessions
   const isSessionInitialized = !activeAgentId || activeAgentId in activeSessionIdMap
   const { agent: activeAgent, isLoading: isAgentLoading } = useActiveAgent()
+  const { session: activeSession } = useActiveSession()
   const { isLoading: isAgentsLoading, agents } = useAgents()
   const { createDefaultSession } = useCreateDefaultSession(activeAgentId)
+  const [showWorkspacePanel, setShowWorkspacePanel] = useState(false)
+
+  // Auto-open workspace panel when switching to a session with accessible_paths
+  useEffect(() => {
+    setShowWorkspacePanel(!!activeSession?.accessible_paths?.[0])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeSession?.id])
 
   // Don't show select/create alerts while data is still loading
   // apiServerRunning is guaranteed by AgentPage guard
@@ -92,7 +103,14 @@ const AgentChat = () => {
         <div className="flex min-w-0 flex-1 flex-col">
           {/* Header */}
           <div className="flex h-fit w-full min-w-0">
-            {activeAgent && <AgentChatNavbar className="min-w-0" activeAgent={activeAgent} />}
+            {activeAgent && (
+              <AgentChatNavbar
+                className="min-w-0"
+                activeAgent={activeAgent}
+                showWorkspacePanel={showWorkspacePanel}
+                onToggleWorkspace={() => setShowWorkspacePanel((prev) => !prev)}
+              />
+            )}
           </div>
 
           {/* Messages */}
@@ -109,6 +127,23 @@ const AgentChat = () => {
           <AgentSessionInputbar agentId={activeAgentId} sessionId={activeSessionId} />
         </div>
       </QuickPanelProvider>
+
+      {/* Workspace Panel */}
+      <AnimatePresence initial={false}>
+        {showWorkspacePanel && (
+          <motion.div
+            key="workspace-panel"
+            initial={{ width: 0, opacity: 0 }}
+            animate={{ width: 'var(--assistants-width)', opacity: 1 }}
+            exit={{ width: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="overflow-hidden">
+            <div className="flex h-full w-(--assistants-width) flex-col overflow-hidden">
+              <AgentWorkspaceSidebar accessiblePaths={activeSession?.accessible_paths ?? []} />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Sessions Panel */}
       <AnimatePresence initial={false}>

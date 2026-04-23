@@ -678,6 +678,9 @@
       "enable_server_description": "Serverul API trebuie activat pentru ca agenții să funcționeze. Îl poți activa direct sau îl poți configura în setări.",
       "server_not_running": "Serverul API este activat, dar nu rulează. Vă rugăm să verificați configurația serverului.",
       "server_not_running_description": "Serverul API trebuie să fie pornit pentru ca agenții să funcționeze. Îl poți porni direct sau verifica setările."
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Vizualizare divizată",
       "restore": "Restaurează vizualizarea divizată"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "Nu încadra",

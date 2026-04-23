@@ -22,9 +22,11 @@ import Tools from './Tools'
 
 type AgentContentProps = {
   activeAgent: AgentEntity
+  showWorkspacePanel?: boolean
+  onToggleWorkspace?: () => void
 }
 
-const AgentContent = ({ activeAgent }: AgentContentProps) => {
+const AgentContent = ({ activeAgent, showWorkspacePanel, onToggleWorkspace }: AgentContentProps) => {
   const { showAssistants, toggleShowAssistants } = useShowAssistants()
   const { isTopNavbar } = useNavbarPosition()
   const { session: activeSession } = useActiveSession()
@@ -124,6 +126,25 @@ const AgentContent = ({ activeAgent }: AgentContentProps) => {
           <OpenExternalAppButton workdir={activeSession.accessible_paths[0]} className="mr-2" />
         )}
         <Tools />
+        {/* Workspace Toggle */}
+        {activeSession && activeSession.accessible_paths?.[0] && onToggleWorkspace && (
+          <>
+            {showWorkspacePanel && (
+              <Tooltip title={t('navbar.hide_sidebar')} mouseEnterDelay={0.8}>
+                <NavbarIcon onClick={onToggleWorkspace}>
+                  <PanelRightClose size={18} />
+                </NavbarIcon>
+              </Tooltip>
+            )}
+            {!showWorkspacePanel && (
+              <Tooltip title={t('navbar.show_sidebar')} mouseEnterDelay={0.8}>
+                <NavbarIcon onClick={onToggleWorkspace}>
+                  <PanelLeftClose size={18} />
+                </NavbarIcon>
+              </Tooltip>
+            )}
+          </>
+        )}
       </div>
     </div>
   )

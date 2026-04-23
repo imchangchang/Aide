@@ -111,8 +111,8 @@ interface FileWatcherConfig {
 }
 
 const DEFAULT_WATCHER_CONFIG: Required<FileWatcherConfig> = {
-  watchExtensions: ['.md', '.markdown', '.txt'],
-  ignoredPatterns: [/(^|[/\\])\../, '**/node_modules/**', '**/.git/**', '**/*.tmp', '**/*.temp', '**/.DS_Store'],
+  watchExtensions: [] as string[],
+  ignoredPatterns: [] as (string | RegExp)[],
   debounceMs: 1000,
   maxDepth: 10,
   usePolling: false,
@@ -868,9 +868,16 @@ class FileStorage {
     }
   }
 
-  public getDirectoryStructure = async (_: Electron.IpcMainInvokeEvent, dirPath: string): Promise<NotesTreeNode[]> => {
+  public getDirectoryStructure = async (
+    _: Electron.IpcMainInvokeEvent,
+    dirPath: string,
+    options?: { includeHidden?: boolean; fileExtensions?: string[] }
+  ): Promise<NotesTreeNode[]> => {
     try {
-      return await scanDir(dirPath)
+      return await scanDir(dirPath, 0, undefined, {
+        ignoreHiddenFiles: options?.includeHidden === false,
+        fileExtensions: options?.fileExtensions
+      })
     } catch (error) {
       logger.error('Failed to get directory structure:', error as Error)
       throw error
@@ -1734,6 +1741,10 @@ class FileStorage {
 
   private shouldWatchFile(filePath: string, eventType: string): boolean {
     if (eventType.includes('Dir')) {
+      return true
+    }
+
+    if (this.watcherConfig.watchExtensions.length === 0) {
       return true
     }
 

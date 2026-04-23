@@ -678,6 +678,9 @@
       "enable_server_description": "智能体功能需要启用 API 服务器。你可以直接启用，或前往设置页面进行配置。",
       "server_not_running": "API 服务器已启用但未运行，请检查服务器配置。",
       "server_not_running_description": "智能体功能需要 API 服务器运行。你可以直接启动服务器，或前往设置页面检查配置。"
+    },
+    "workspace": {
+      "empty": "未配置工作区文件夹"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "分割视图",
       "restore": "取消分割视图"
+    },
+    "workspace": {
+      "empty": "未设置工作目录",
+      "hide": "隐藏工作区",
+      "show": "显示工作区"
     },
     "wrap": {
       "off": "取消换行",

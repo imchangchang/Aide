@@ -267,7 +267,10 @@ const NotesPage: FC = () => {
 
         // 检查默认路径下是否有笔记文件
         try {
-          const tree = await window.api.file.getDirectoryStructure(defaultPath)
+          const tree = await window.api.file.getDirectoryStructure(defaultPath, {
+            fileExtensions: ['.md'],
+            includeHidden: false
+          })
           if (!tree || tree.length === 0) {
             // 默认目录为空，提示用户需要迁移文件
             message.warning({
@@ -371,7 +374,10 @@ const NotesPage: FC = () => {
       }
 
       try {
-        await window.api.file.startFileWatcher(notesPath)
+        await window.api.file.startFileWatcher(notesPath, {
+          watchExtensions: ['.md', '.markdown', '.txt'],
+          ignoredPatterns: [/(^|[/\\])\../, '**/node_modules/**', '**/.git/**', '**/*.tmp', '**/*.temp', '**/.DS_Store']
+        })
         watcherRef.current = window.api.file.onFileChange(handleFileChange)
       } catch (error) {
         logger.error('Failed to start file watcher:', error as Error)

@@ -678,6 +678,9 @@
       "enable_server_description": "The API server must be enabled for agents to work. You can enable it directly or configure it in settings.",
       "server_not_running": "API Server is enabled but not running. Please check the server configuration.",
       "server_not_running_description": "The API server needs to be running for agents to work. You can start it directly or check the settings."
+    },
+    "workspace": {
+      "empty": "No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Split View",
       "restore": "Restore Split View"
+    },
+    "workspace": {
+      "empty": "No workspace directory set",
+      "hide": "Hide Workspace",
+      "show": "Show Workspace"
     },
     "wrap": {
       "off": "Unwrap",

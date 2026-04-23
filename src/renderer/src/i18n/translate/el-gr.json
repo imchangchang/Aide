@@ -678,6 +678,9 @@
       "enable_server_description": "Ο διακομιστής API πρέπει να είναι ενεργοποιημένος για να λειτουργήσουν οι πράκτορες. Μπορείτε να τον ενεργοποιήσετε απευθείας ή να τον ρυθμίσετε στις ρυθμίσεις.",
       "server_not_running": "Ο API Server είναι ενεργοποιημένος αλλά δεν εκτελείται. Παρακαλούμε ελέγξτε τη διαμόρφωση του διακομιστή.",
       "server_not_running_description": "Ο διακομιστής API πρέπει να βρίσκεται σε λειτουργία για να λειτουργήσουν οι πράκτορες. Μπορείτε να τον εκκινήσετε απευθείας ή να ελέγξετε τις ρυθμίσεις."
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Διαχωρισμός προβολής",
       "restore": "Ακύρωση διαχωρισμού προβολής"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "Απενεργοποίηση αναδίπλωσης",

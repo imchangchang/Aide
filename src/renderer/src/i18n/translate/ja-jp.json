@@ -678,6 +678,9 @@
       "enable_server_description": "エージェントを動作させるには、API サーバーを有効にする必要があります。直接有効にするか、設定から構成することができます。",
       "server_not_running": "APIサーバーは有効になっていますが、実行されていません。サーバー設定を確認してください。",
       "server_not_running_description": "エージェントを動作させるには、APIサーバーが稼働している必要があります。直接起動するか、設定を確認してください。"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "分割視圖",
       "restore": "分割視圖を解除"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "改行解除",

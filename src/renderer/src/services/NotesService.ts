@@ -19,7 +19,10 @@ export interface UploadResult {
 }
 
 export async function loadTree(rootPath: string): Promise<NotesTreeNode[]> {
-  return window.api.file.getDirectoryStructure(normalizePath(rootPath))
+  return window.api.file.getDirectoryStructure(normalizePath(rootPath), {
+    fileExtensions: ['.md'],
+    includeHidden: false
+  })
 }
 
 export function sortTree(nodes: NotesTreeNode[], sortType: NotesSortType): NotesTreeNode[] {

@@ -310,14 +310,28 @@ export async function base64Image(file: FileMetadata): Promise<{ mime: string; b
  * @param basePath
  * @returns 文件元数据数组
  */
-export async function scanDir(dirPath: string, depth = 0, basePath?: string): Promise<NotesTreeNode[]> {
+interface ScanDirOptions {
+  includeFiles?: boolean
+  includeDirectories?: boolean
+  fileExtensions?: string[]
+  ignoreHiddenFiles?: boolean
+  recursive?: boolean
+  maxDepth?: number
+}
+
+export async function scanDir(
+  dirPath: string,
+  depth = 0,
+  basePath?: string,
+  opts?: ScanDirOptions
+): Promise<NotesTreeNode[]> {
   const options = {
-    includeFiles: true,
-    includeDirectories: true,
-    fileExtensions: ['.md'],
-    ignoreHiddenFiles: true,
-    recursive: true,
-    maxDepth: 10
+    includeFiles: opts?.includeFiles ?? true,
+    includeDirectories: opts?.includeDirectories ?? true,
+    fileExtensions: opts?.fileExtensions ?? [],
+    ignoreHiddenFiles: opts?.ignoreHiddenFiles ?? false,
+    recursive: opts?.recursive ?? true,
+    maxDepth: opts?.maxDepth ?? 10
   }
 
   // 如果是第一次调用，设置basePath为当前目录
@@ -363,7 +377,7 @@ export async function scanDir(dirPath: string, depth = 0, basePath?: string): Pr
 
       // 如果启用了递归扫描，则递归调用 scanDir
       if (options.recursive) {
-        dirTreeNode.children = await scanDir(entryPath, depth + 1, basePath)
+        dirTreeNode.children = await scanDir(entryPath, depth + 1, basePath, opts)
       }
 
       result.push(dirTreeNode)
@@ -374,9 +388,9 @@ export async function scanDir(dirPath: string, depth = 0, basePath?: string): Pr
       }
 
       const stats = await fs.promises.stat(entryPath)
-      const name = entry.name.endsWith(options.fileExtensions[0])
-        ? entry.name.slice(0, -options.fileExtensions[0].length)
-        : entry.name
+      // 只在指定了单一扩展名且匹配时去掉扩展名（兼容 Notes 场景），否则保留完整文件名
+      const hasSingleExt = options.fileExtensions.length === 1 && entry.name.endsWith(options.fileExtensions[0])
+      const name = hasSingleExt ? entry.name.slice(0, -options.fileExtensions[0].length) : entry.name
 
       // 对于文件，treePath应该使用不带扩展名的路径
       const nameWithoutExt = path.basename(entryPath, path.extname(entryPath))

@@ -678,6 +678,9 @@
       "enable_server_description": "Для работы агентов необходимо включить API-сервер. Вы можете включить его напрямую или в настройках.",
       "server_not_running": "Сервер API включен, но не запущен. Пожалуйста, проверьте конфигурацию сервера.",
       "server_not_running_description": "Для работы агентов необходимо, чтобы API-сервер был запущен. Вы можете запустить его напрямую или проверить настройки."
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace folder configured"
     }
   },
   "apiServer": {
@@ -1566,6 +1569,11 @@
     "split": {
       "label": "Разделить на два окна",
       "restore": "Вернуться к одному окну"
+    },
+    "workspace": {
+      "empty": "[to be translated]:No workspace directory set",
+      "hide": "[to be translated]:Hide Workspace",
+      "show": "[to be translated]:Show Workspace"
     },
     "wrap": {
       "off": "Отменить перенос строки",

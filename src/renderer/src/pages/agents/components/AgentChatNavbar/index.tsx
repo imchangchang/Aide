@@ -9,9 +9,11 @@ import AgentContent from './AgentContent'
 interface Props {
   activeAgent: AgentEntity
   className?: string
+  showWorkspacePanel?: boolean
+  onToggleWorkspace?: () => void
 }
 
-const AgentChatNavbar = ({ activeAgent, className }: Props) => {
+const AgentChatNavbar = ({ activeAgent, className, showWorkspacePanel, onToggleWorkspace }: Props) => {
   useShortcut('search_message', () => {
     void SearchPopup.show()
   })
@@ -19,7 +21,11 @@ const AgentChatNavbar = ({ activeAgent, className }: Props) => {
   return (
     <NavbarHeader className={cn('agent-navbar h-(--navbar-height)', className)}>
       <div className="flex h-full min-w-0 flex-1 shrink items-center overflow-auto">
-        <AgentContent activeAgent={activeAgent} />
+        <AgentContent
+          activeAgent={activeAgent}
+          showWorkspacePanel={showWorkspacePanel}
+          onToggleWorkspace={onToggleWorkspace}
+        />
       </div>
     </NavbarHeader>
   )
