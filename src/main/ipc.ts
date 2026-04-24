@@ -60,6 +60,7 @@ import { localTransferService } from './services/LocalTransferService'
 import mcpService from './services/MCPService'
 import MemoryService from './services/memory/MemoryService'
 import { openTraceWindow, setTraceWindowTitle } from './services/NodeTraceService'
+import { getNoteAgentService } from './services/noteagent/core/NoteAgentService'
 import NotificationService from './services/NotificationService'
 import * as NutstoreService from './services/NutstoreService'
 import ObsidianVaultService from './services/ObsidianVaultService'
@@ -115,6 +116,7 @@ const obsidianVaultService = new ObsidianVaultService()
 const vertexAIService = VertexAIService.getInstance()
 const memoryService = MemoryService.getInstance()
 const dxtService = new DxtService()
+const noteAgentService = getNoteAgentService()
 
 export async function registerIpc(mainWindow: BrowserWindow, app: Electron.App) {
   const appUpdater = new AppUpdater()
@@ -1194,6 +1196,36 @@ export async function registerIpc(mainWindow: BrowserWindow, app: Electron.App) 
       return { exists: false }
     }
   })
+
+  // Note Agent
+  const handleNoteAgent =
+    <T>(fn: () => Promise<T>, label: string) =>
+    async () => {
+      try {
+        return await fn()
+      } catch (error) {
+        logger.error(`NoteAgent ${label} error`, error as Error)
+        throw error
+      }
+    }
+
+  ipcMain.handle(IpcChannel.NoteAgent_Init, async (_, workspacePath: string) =>
+    handleNoteAgent(() => noteAgentService.init(workspacePath), 'init')()
+  )
+  ipcMain.handle(IpcChannel.NoteAgent_Ingest, async () => handleNoteAgent(() => noteAgentService.ingest(), 'ingest')())
+  ipcMain.handle(IpcChannel.NoteAgent_HealthCheck, async () =>
+    handleNoteAgent(() => noteAgentService.healthCheck(), 'healthCheck')()
+  )
+  ipcMain.handle(IpcChannel.NoteAgent_AnalyzeGraph, async () =>
+    handleNoteAgent(() => noteAgentService.analyzeGraph(), 'analyzeGraph')()
+  )
+  ipcMain.handle(IpcChannel.NoteAgent_Query, async (_, keyword: string) =>
+    handleNoteAgent(() => noteAgentService.query(keyword), 'query')()
+  )
+  ipcMain.handle(IpcChannel.NoteAgent_Status, async () => handleNoteAgent(() => noteAgentService.status(), 'status')())
+  ipcMain.handle(IpcChannel.NoteAgent_RebuildIndex, async () =>
+    handleNoteAgent(() => noteAgentService.rebuildIndex(), 'rebuildIndex')()
+  )
 
   // Analytics
   ipcMain.handle(IpcChannel.Analytics_TrackTokenUsage, (_, data: TokenUsageData) =>

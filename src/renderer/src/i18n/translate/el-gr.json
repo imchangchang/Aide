@@ -2752,6 +2752,10 @@
   "navigate": {
     "provider_settings": "Μετάβαση στις ρυθμίσεις παρόχου"
   },
+  "noteAgent": {
+    "label": "[to be translated]:Note Agent",
+    "title": "[to be translated]:Note Agent"
+  },
   "notes": {
     "auto_rename": {
       "empty_note": "Το σημείωμα είναι κενό, δεν μπορεί να δημιουργηθεί όνομα",
@@ -5213,6 +5217,65 @@
       "warn": "Χρησιμοποιείται κίνδυνος"
     },
     "no_provider_selected": "Δεν έχει επιλεγεί πάροχος",
+    "noteAgent": {
+      "actions": {
+        "analyzeGraph": "[to be translated]:Analyze Graph",
+        "healthCheck": "[to be translated]:Health Check",
+        "ingest": "[to be translated]:Run Ingest",
+        "rebuildIndex": "[to be translated]:Rebuild Index",
+        "requireInit": "[to be translated]:Initialize workspace first",
+        "title": "[to be translated]:Actions"
+      },
+      "graph": {
+        "avgDegree": "[to be translated]:Avg Degree {{value}}",
+        "clusters": "[to be translated]:Clusters {{count}}",
+        "edges": "[to be translated]:Edges {{count}}",
+        "failed": "[to be translated]:Graph analysis failed",
+        "hubs": "[to be translated]:Hubs",
+        "nodes": "[to be translated]:Nodes {{count}}",
+        "success": "[to be translated]:Graph analysis complete",
+        "title": "[to be translated]:Knowledge Graph"
+      },
+      "health": {
+        "allGood": "[to be translated]:Knowledge base is healthy",
+        "failed": "[to be translated]:Health check failed",
+        "success": "[to be translated]:Found {{issues}} issues",
+        "title": "[to be translated]:Health Check"
+      },
+      "ingest": {
+        "failed": "[to be translated]:Ingest failed",
+        "success": "[to be translated]:Ingest complete, {{count}} files added"
+      },
+      "init": {
+        "button": "[to be translated]:Initialize",
+        "failed": "[to be translated]:Initialization failed",
+        "success": "[to be translated]:Initialized successfully"
+      },
+      "label": "[to be translated]:Note Agent",
+      "query": {
+        "button": "[to be translated]:Search",
+        "failed": "[to be translated]:Search failed",
+        "placeholder": "[to be translated]:Enter keyword to search knowledge base...",
+        "title": "[to be translated]:Search Knowledge"
+      },
+      "rebuild": {
+        "failed": "[to be translated]:Rebuild index failed",
+        "success": "[to be translated]:Index rebuilt successfully"
+      },
+      "status": {
+        "hasCommits": "[to be translated]:{{count}} commits",
+        "initialized": "[to be translated]:Initialized",
+        "noCommits": "[to be translated]:No commits",
+        "notInitialized": "[to be translated]:Not initialized",
+        "title": "[to be translated]:Status"
+      },
+      "title": "[to be translated]:Note Agent",
+      "workspace": {
+        "placeholder": "[to be translated]:Select or enter workspace path...",
+        "required": "[to be translated]:Please select a workspace path",
+        "select": "[to be translated]:Select Directory"
+      }
+    },
     "notification": {
       "assistant": "Μήνυμα βοηθού",
       "backup": "Δημιουργία αντιγράφου ασφαλείας",

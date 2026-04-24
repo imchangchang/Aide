@@ -18,6 +18,7 @@ import { and, asc, count, desc, eq, isNull, type SQL, sql } from 'drizzle-orm'
 import { BaseService } from '../BaseService'
 import { agentsTable, type InsertSessionRow, type SessionRow, sessionsTable } from '../database/schema'
 import type { AgentModelField } from '../errors'
+import { NOTE_AGENT_ID } from './builtin/BuiltinAgentIds'
 import { builtinSlashCommands } from './claudecode/commands'
 
 const logger = loggerService.withContext('SessionService')
@@ -38,6 +39,21 @@ export class SessionService extends BaseService {
    */
   async listSlashCommands(agentType: string, agentId?: string): Promise<SlashCommand[]> {
     const commands: SlashCommand[] = []
+
+    // NoteAgent gets its own command set
+    if (agentId === NOTE_AGENT_ID) {
+      commands.push(
+        { command: '/init', description: 'Initialize NoteAgent with the notes directory' },
+        { command: '/ingest', description: 'Build knowledge base from raw notes' },
+        { command: '/health', description: 'Check knowledge base health' },
+        { command: '/graph', description: 'Analyze link graph' },
+        { command: '/query', description: 'Search knowledge base by keyword' },
+        { command: '/rebuild', description: 'Rebuild knowledge index' },
+        { command: '/status', description: 'Show current status' },
+        { command: '/help', description: 'Show available commands' }
+      )
+      return commands
+    }
 
     // Add builtin slash commands
     if (agentType === 'claude-code') {

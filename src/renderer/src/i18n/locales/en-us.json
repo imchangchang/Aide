@@ -2752,6 +2752,10 @@
   "navigate": {
     "provider_settings": "Go to provider settings"
   },
+  "noteAgent": {
+    "label": "Note Agent",
+    "title": "Note Agent"
+  },
   "notes": {
     "auto_rename": {
       "empty_note": "Note is empty, cannot generate name",
@@ -5213,6 +5217,65 @@
       "warn": "Risk Warning"
     },
     "no_provider_selected": "Provider not selected",
+    "noteAgent": {
+      "actions": {
+        "analyzeGraph": "Analyze Graph",
+        "healthCheck": "Health Check",
+        "ingest": "Build Knowledge Base",
+        "rebuildIndex": "Rebuild Index",
+        "requireInit": "Initialize workspace first",
+        "title": "Actions"
+      },
+      "graph": {
+        "avgDegree": "Avg Degree {{value}}",
+        "clusters": "Clusters {{count}}",
+        "edges": "Edges {{count}}",
+        "failed": "Graph analysis failed",
+        "hubs": "Hubs",
+        "nodes": "Nodes {{count}}",
+        "success": "Graph analysis complete",
+        "title": "Knowledge Graph"
+      },
+      "health": {
+        "allGood": "Knowledge base is healthy",
+        "failed": "Health check failed",
+        "success": "Found {{issues}} issues",
+        "title": "Health Check"
+      },
+      "ingest": {
+        "failed": "Knowledge base build failed",
+        "success": "Build complete, {{count}} files added"
+      },
+      "init": {
+        "button": "Initialize",
+        "failed": "Initialization failed",
+        "success": "Initialized successfully"
+      },
+      "label": "Note Agent",
+      "query": {
+        "button": "Search",
+        "failed": "Search failed",
+        "placeholder": "Enter keyword to search knowledge base...",
+        "title": "Search Knowledge"
+      },
+      "rebuild": {
+        "failed": "Rebuild index failed",
+        "success": "Index rebuilt successfully"
+      },
+      "status": {
+        "hasCommits": "{{count}} commits",
+        "initialized": "Initialized",
+        "noCommits": "No commits",
+        "notInitialized": "Not initialized",
+        "title": "Status"
+      },
+      "title": "Note Agent",
+      "workspace": {
+        "placeholder": "Select or enter workspace path...",
+        "required": "Please select a workspace path",
+        "select": "Select Directory"
+      }
+    },
     "notification": {
       "assistant": "Assistant Message",
       "backup": "Backup Message",

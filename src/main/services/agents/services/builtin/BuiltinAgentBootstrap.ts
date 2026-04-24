@@ -12,7 +12,7 @@ import type { BuiltinAgentInitResult } from '../AgentService'
 import { agentService } from '../AgentService'
 import { schedulerService } from '../SchedulerService'
 import { sessionService } from '../SessionService'
-import { CHERRY_ASSISTANT_AGENT_ID, CHERRY_CLAW_AGENT_ID } from './BuiltinAgentIds'
+import { CHERRY_ASSISTANT_AGENT_ID, CHERRY_CLAW_AGENT_ID, NOTE_AGENT_ID } from './BuiltinAgentIds'
 import { provisionBuiltinAgent } from './BuiltinAgentProvisioner'
 
 const logger = loggerService.withContext('BuiltinAgentBootstrap')
@@ -33,7 +33,7 @@ export async function bootstrapBuiltinAgents(): Promise<void> {
     logger.error('Failed to install built-in skills', error as Error)
   }
 
-  await Promise.all([initCherryClaw(), initCherryAssistant()])
+  await Promise.all([initCherryClaw(), initCherryAssistant(), initNoteAgent()])
 }
 
 function clearRetry(agentId: string): void {
@@ -130,5 +130,21 @@ async function initCherryAssistant(): Promise<void> {
     await handleInitResult(CHERRY_ASSISTANT_AGENT_ID, 'Cherry Assistant', result, initCherryAssistant)
   } catch (error) {
     logger.warn('Failed to init Cherry Assistant agent:', error as Error)
+  }
+}
+
+// ── NoteAgent ───────────────────────────────────────────────────────
+
+async function initNoteAgent(): Promise<void> {
+  try {
+    const result = await agentService.initNoteAgent()
+    await handleInitResult(NOTE_AGENT_ID, 'NoteAgent', result, initNoteAgent, async (_agentId) => {
+      // Initialize NoteAgentService with the default notes directory
+      const { NoteAgentService } = await import('@main/services/noteagent/core/NoteAgentService')
+      const noteAgentService = new NoteAgentService()
+      await noteAgentService.initWithNotesDir()
+    })
+  } catch (error) {
+    logger.warn('Failed to init NoteAgent:', error as Error)
   }
 }

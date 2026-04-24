@@ -1,6 +1,7 @@
 import { randomUUID } from 'node:crypto'
 
 import { loggerService } from '@logger'
+import { getNoteAgentService } from '@main/services/noteagent/core/NoteAgentService'
 import type {
   AgentPersistedMessage,
   AgentSessionMessageEntity,
@@ -15,9 +16,12 @@ import { BaseService } from '../BaseService'
 import { sessionMessagesTable } from '../database/schema'
 import { agentMessageRepository } from '../database/sessionMessageRepository'
 import type { AgentStreamEvent } from '../interfaces/AgentStreamInterface'
+import { NOTE_AGENT_ID } from './builtin/BuiltinAgentIds'
 import ClaudeCodeService from './claudecode'
+import { NoteAgentCodeService } from './noteagent'
 
 const claudeCodeService = new ClaudeCodeService()
+const noteAgentCodeService = new NoteAgentCodeService(getNoteAgentService())
 
 const logger = loggerService.withContext('SessionMessageService')
 
@@ -184,17 +188,20 @@ export class SessionMessageService extends BaseService {
     const agentSessionId = await this.getLastAgentSessionId(session.id)
     logger.debug('Session Message stream message data:', { message: req, session_id: agentSessionId })
 
-    const claudeStream = await claudeCodeService.invoke(
-      req.content,
-      session,
-      abortController,
-      agentSessionId,
-      {
-        effort: req.effort,
-        thinking: req.thinking
-      },
-      undefined
-    )
+    const isNoteAgent = session.agent_id === NOTE_AGENT_ID
+    const agentStream = isNoteAgent
+      ? await noteAgentCodeService.invoke(req.content, session, abortController)
+      : await claudeCodeService.invoke(
+          req.content,
+          session,
+          abortController,
+          agentSessionId,
+          {
+            effort: req.effort,
+            thinking: req.thinking
+          },
+          undefined
+        )
     const accumulator = new TextStreamAccumulator()
 
     let resolveCompletion!: (value: {
@@ -216,12 +223,12 @@ export class SessionMessageService extends BaseService {
     const cleanup = () => {
       if (finished) return
       finished = true
-      claudeStream.removeAllListeners()
+      agentStream.removeAllListeners()
     }
 
     const stream = new ReadableStream<TextStreamPart<Record<string, any>>>({
       start: (controller) => {
-        claudeStream.on('data', async (event: AgentStreamEvent) => {
+        agentStream.on('data', async (event: AgentStreamEvent) => {
           if (finished) return
           try {
             switch (event.type) {
@@ -252,9 +259,9 @@ export class SessionMessageService extends BaseService {
                 controller.close()
                 if (options?.persist) {
                   // Read SDK session_id from the stream object (set by ClaudeCodeService on init)
-                  const resolvedSessionId = claudeStream.sdkSessionId || agentSessionId
+                  const resolvedSessionId = agentStream.sdkSessionId || agentSessionId
                   logger.debug('Persisting headless exchange with agent session ID', {
-                    sdkSessionId: claudeStream.sdkSessionId,
+                    sdkSessionId: agentStream.sdkSessionId,
                     fallback: agentSessionId,
                     resolved: resolvedSessionId
                   })
@@ -280,7 +287,7 @@ export class SessionMessageService extends BaseService {
                 cleanup()
                 controller.close()
                 if (options?.persist) {
-                  const resolvedSessionId = claudeStream.sdkSessionId || agentSessionId
+                  const resolvedSessionId = agentStream.sdkSessionId || agentSessionId
                   const partialText = accumulator.getText()
                   if (partialText) {
                     this.persistHeadlessExchange(
@@ -305,7 +312,7 @@ export class SessionMessageService extends BaseService {
               }
 
               default:
-                logger.warn('Unknown event type from Claude Code service:', {
+                logger.warn('Unknown event type from agent service:', {
                   type: event.type
                 })
                 break

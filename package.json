@@ -97,6 +97,7 @@
     "graceful-fs": "4.2.11",
     "grammy": "^1.36.3",
     "gray-matter": "4.0.3",
+    "isomorphic-git": "^1.37.5",
     "jsdom": "26.1.0",
     "node-stream-zip": "1.15.0",
     "officeparser": "4.2.0",

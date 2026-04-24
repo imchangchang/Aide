@@ -836,6 +836,15 @@ const api = {
   },
   analytics: {
     trackTokenUsage: (data: TokenUsageData) => ipcRenderer.invoke(IpcChannel.Analytics_TrackTokenUsage, data)
+  },
+  noteAgent: {
+    init: (workspacePath: string) => ipcRenderer.invoke(IpcChannel.NoteAgent_Init, workspacePath),
+    ingest: () => ipcRenderer.invoke(IpcChannel.NoteAgent_Ingest),
+    healthCheck: () => ipcRenderer.invoke(IpcChannel.NoteAgent_HealthCheck),
+    analyzeGraph: () => ipcRenderer.invoke(IpcChannel.NoteAgent_AnalyzeGraph),
+    query: (keyword: string) => ipcRenderer.invoke(IpcChannel.NoteAgent_Query, keyword),
+    status: () => ipcRenderer.invoke(IpcChannel.NoteAgent_Status),
+    rebuildIndex: () => ipcRenderer.invoke(IpcChannel.NoteAgent_RebuildIndex)
   }
 }
 

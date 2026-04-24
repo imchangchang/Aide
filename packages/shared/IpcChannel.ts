@@ -450,5 +450,14 @@ export enum IpcChannel {
   OpenClaw_PerformUpdate = 'openclaw:perform-update',
 
   // Analytics
-  Analytics_TrackTokenUsage = 'analytics:track-token-usage'
+  Analytics_TrackTokenUsage = 'analytics:track-token-usage',
+
+  // Note Agent
+  NoteAgent_Init = 'note-agent:init',
+  NoteAgent_Ingest = 'note-agent:ingest',
+  NoteAgent_HealthCheck = 'note-agent:health-check',
+  NoteAgent_AnalyzeGraph = 'note-agent:analyze-graph',
+  NoteAgent_Query = 'note-agent:query',
+  NoteAgent_Status = 'note-agent:status',
+  NoteAgent_RebuildIndex = 'note-agent:rebuild-index'
 }

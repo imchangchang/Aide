@@ -1,5 +1,6 @@
 import { loggerService } from '@logger'
 import { modelsService } from '@main/apiServer/services/models'
+import { getNotesDir } from '@main/utils/file'
 import type {
   AgentEntity,
   CreateAgentRequest,
@@ -24,7 +25,7 @@ import {
 } from '../database/schema'
 import type { AgentModelField } from '../errors'
 import { skillService } from '../skills/SkillService'
-import { CHERRY_CLAW_AGENT_ID, isBuiltinAgentId } from './builtin/BuiltinAgentIds'
+import { CHERRY_CLAW_AGENT_ID, isBuiltinAgentId, NOTE_AGENT_ID } from './builtin/BuiltinAgentIds'
 import { seedWorkspaceTemplates } from './cherryclaw/seedWorkspace'
 
 const logger = loggerService.withContext('AgentService')
@@ -387,6 +388,81 @@ export class AgentService extends BaseService {
       return { agentId: id }
     } catch (error) {
       logger.error('Failed to init default CherryClaw agent', error as Error)
+      return { agentId: null, skippedReason: 'no_model' }
+    }
+  }
+
+  /**
+   * Initialize the built-in NoteAgent with a fixed ID.
+   * Called once at app startup. Safe to call multiple times — skips if the agent already exists.
+   */
+  async initNoteAgent(): Promise<BuiltinAgentInitResult> {
+    const id = NOTE_AGENT_ID
+    try {
+      const database = await this.getDatabase()
+      const existing = await this.findAgentRow(id, { includeDeleted: true })
+
+      if (existing?.deleted_at) {
+        logger.info('NoteAgent was deleted by user — skipping recreation', { id })
+        return { agentId: null, skippedReason: 'deleted' }
+      }
+
+      if (existing) {
+        return { agentId: id }
+      }
+
+      const modelsRes = await modelsService.getModels({ providerType: 'anthropic', limit: 1 })
+      const firstModel = modelsRes.data?.[0]
+      if (!firstModel) {
+        logger.info('No Anthropic-compatible models available yet — skipping NoteAgent creation')
+        return { agentId: null, skippedReason: 'no_model' }
+      }
+
+      const now = new Date().toISOString()
+      const configuration: CreateAgentRequest['configuration'] = {
+        avatar: '📚',
+        permission_mode: 'default',
+        max_turns: 100,
+        env_vars: {}
+      }
+
+      const req: CreateAgentRequest = {
+        type: 'claude-code',
+        name: 'Note Agent',
+        description: 'Knowledge base manager for your notes',
+        model: firstModel.id,
+        accessible_paths: [getNotesDir()],
+        configuration
+      }
+
+      const resolvedPaths = this.resolveAccessiblePaths(req.accessible_paths, id)
+      await this.validateAgentModels(req.type, { model: req.model })
+
+      const serialized = this.serializeJsonFields({ ...req, accessible_paths: resolvedPaths })
+
+      const insertData: InsertAgentRow = {
+        id,
+        type: req.type,
+        name: req.name || 'Note Agent',
+        description: req.description,
+        instructions: 'You are a note knowledge base manager. Use slash commands to manage your notes.',
+        model: req.model,
+        configuration: serialized.configuration,
+        accessible_paths: serialized.accessible_paths,
+        sort_order: 0,
+        created_at: now,
+        updated_at: now
+      }
+
+      await database.transaction(async (tx) => {
+        await tx.update(agentsTable).set({ sort_order: sql`${agentsTable.sort_order} + 1` })
+        await tx.insert(agentsTable).values(insertData)
+      })
+
+      logger.info('Created NoteAgent', { id })
+      return { agentId: id }
+    } catch (error) {
+      logger.error('Failed to init NoteAgent', error as Error)
       return { agentId: null, skippedReason: 'no_model' }
     }
   }

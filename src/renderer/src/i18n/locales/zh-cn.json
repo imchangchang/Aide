@@ -2752,6 +2752,10 @@
   "navigate": {
     "provider_settings": "跳转到服务商设置界面"
   },
+  "noteAgent": {
+    "label": "笔记助手",
+    "title": "笔记助手"
+  },
   "notes": {
     "auto_rename": {
       "empty_note": "笔记为空，无法生成名称",
@@ -5213,6 +5217,65 @@
       "warn": "风险警告"
     },
     "no_provider_selected": "未选择提供商",
+    "noteAgent": {
+      "actions": {
+        "analyzeGraph": "分析知识图谱",
+        "healthCheck": "健康检查",
+        "ingest": "构建知识库",
+        "rebuildIndex": "重建索引",
+        "requireInit": "请先初始化工作区",
+        "title": "操作"
+      },
+      "graph": {
+        "avgDegree": "平均度数 {{value}}",
+        "clusters": "聚类 {{count}}",
+        "edges": "边 {{count}}",
+        "failed": "图谱分析失败",
+        "hubs": "枢纽节点",
+        "nodes": "节点 {{count}}",
+        "success": "图谱分析完成",
+        "title": "知识图谱"
+      },
+      "health": {
+        "allGood": "知识库健康",
+        "failed": "健康检查失败",
+        "success": "发现 {{issues}} 个问题",
+        "title": "健康检查"
+      },
+      "ingest": {
+        "failed": "构建知识库失败",
+        "success": "构建完成，新增 {{count}} 个文件"
+      },
+      "init": {
+        "button": "初始化",
+        "failed": "初始化失败",
+        "success": "初始化成功"
+      },
+      "label": "笔记助手",
+      "query": {
+        "button": "搜索",
+        "failed": "搜索失败",
+        "placeholder": "输入关键词搜索知识库...",
+        "title": "搜索知识库"
+      },
+      "rebuild": {
+        "failed": "重建索引失败",
+        "success": "索引重建成功"
+      },
+      "status": {
+        "hasCommits": "{{count}} 条提交",
+        "initialized": "已初始化",
+        "noCommits": "暂无提交",
+        "notInitialized": "未初始化",
+        "title": "状态"
+      },
+      "title": "笔记助手",
+      "workspace": {
+        "placeholder": "选择或输入工作区路径...",
+        "required": "请选择工作区路径",
+        "select": "选择目录"
+      }
+    },
     "notification": {
       "assistant": "助手消息",
       "backup": "备份",
